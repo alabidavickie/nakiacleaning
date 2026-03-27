@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nakiacleaning Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --cream:#FAF7F2;
+    --forest:#1B3A2D;
+    --sage:#6B8F71;
+    --gold:#C9A84C;
+    --dark:#1A1A1A;
+    --warm-white:#FFF8F0;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'DM Sans',sans-serif;
+    background:var(--cream);
+    color:var(--dark);
+    overflow-x:hidden;
+  }
+
+  nav{
+    position:fixed;top:0;left:0;width:100%;z-index:100;
+    padding:20px 40px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(250,247,242,0.85);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(27,58,45,0.06);
+  }
+  .logo{
+    font-family:'Playfair Display',serif;
+    font-size:1.35rem;font-weight:700;
+    color:var(--forest);
+    letter-spacing:-0.02em;
+    cursor:pointer;
+  }
+  .logo span{color:var(--gold)}
+  .nav-cta{
+    display:inline-block;
+    background:var(--forest);color:var(--warm-white);
+    padding:10px 24px;border-radius:40px;
+    font-family:'DM Sans',sans-serif;
+    font-size:.85rem;font-weight:500;
+    letter-spacing:.04em;text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    transition:all .3s;
+    user-select:none;
+  }
+  .nav-cta:hover{background:var(--gold);color:var(--dark);transform:scale(1.04)}
+
+  .hero{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    padding:120px 24px 80px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;top:-40%;right:-20%;
+    width:700px;height:700px;
+    background:radial-gradient(circle,rgba(107,143,113,0.12) 0%,transparent 70%);
+    border-radius:50%;pointer-events:none;
+    animation:float 8s ease-in-out infinite;
+  }
+  .hero::after{
+    content:'';position:absolute;bottom:-30%;left:-15%;
+    width:500px;height:500px;
+    background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);
+    border-radius:50%;pointer-events:none;
+    animation:float 10s ease-in-out infinite reverse;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-30px)}
+  }
+  .hero-content{position:relative;z-index:2;max-width:700px}
+  .hero-tag{
+    display:inline-block;
+    font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--sage);
+    border:1px solid var(--sage);
+    padding:6px 18px;border-radius:30px;
+    margin-bottom:28px;
+    animation:fadeUp .8s ease both;
+  }
+  .hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.6rem,6vw,4.4rem);
+    font-weight:700;line-height:1.1;
+    color:var(--forest);
+    margin-bottom:20px;
+    animation:fadeUp .8s ease .15s both;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p{
+    font-size:1.05rem;line-height:1.7;
+    color:#5A5A5A;max-width:480px;margin:0 auto 36px;
+    font-weight:300;
+    animation:fadeUp .8s ease .3s both;
+  }
+  .hero-btn{
+    display:inline-block;
+    background:var(--forest);color:var(--warm-white);
+    padding:16px 44px;border-radius:50px;
+    font-family:'DM Sans',sans-serif;
+    font-size:.9rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    user-select:none;
+    transition:all .35s ease;
+    animation:fadeUp .8s ease .45s both;
+  }
+  .hero-btn:hover{background:var(--gold);color:var(--dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,0.25)}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(24px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  .services{
+    padding:80px 24px;
+    max-width:960px;margin:0 auto;
+    text-align:center;
+  }
+  .section-label{
+    font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--sage);margin-bottom:12px;
+  }
+  .services h2{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    color:var(--forest);margin-bottom:48px;font-weight:600;
+  }
+  .services-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+  }
+  .service-card{
+    background:var(--warm-white);
+    border:1px solid rgba(27,58,45,0.06);
+    border-radius:16px;
+    padding:36px 28px;
+    transition:all .35s ease;
+    text-align:left;
+  }
+  .service-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 40px rgba(27,58,45,0.08);
+    border-color:var(--sage);
+  }
+  .service-icon{
+    width:48px;height:48px;
+    background:var(--forest);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:18px;
+  }
+  .service-card h3{
+    font-family:'Playfair Display',serif;
+    font-size:1.15rem;color:var(--forest);margin-bottom:8px;
+  }
+  .service-card p{
+    font-size:.88rem;color:#777;line-height:1.6;font-weight:300;
+  }
+
+  .booking{
+    padding:80px 24px;
+    background:var(--forest);
+    color:var(--warm-white);
+    position:relative;
+    overflow:hidden;
+  }
+  .booking::before{
+    content:'';position:absolute;top:0;right:0;
+    width:400px;height:400px;
+    background:radial-gradient(circle,rgba(201,168,76,0.1) 0%,transparent 70%);
+    border-radius:50%;pointer-events:none;
+  }
+  .booking-inner{
+    max-width:560px;margin:0 auto;text-align:center;
+    position:relative;z-index:2;
+  }
+  .booking .section-label{color:var(--gold)}
+  .booking h2{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(1.8rem,4vw,2.4rem);
+    margin-bottom:36px;font-weight:600;
+  }
+  .form-row{display:flex;gap:12px;margin-bottom:12px}
+  .form-row.full{display:block}
+  .form-row input,.form-row select,.form-row textarea{
+    width:100%;
+    padding:14px 18px;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px;
+    background:rgba(255,255,255,0.06);
+    color:#fff;
+    font-family:'DM Sans',sans-serif;
+    font-size:.9rem;
+    outline:none;
+    transition:border .3s;
+  }
+  .form-row input::placeholder,.form-row textarea::placeholder{color:rgba(255,255,255,0.4)}
+  .form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--gold)}
+  .form-row select{appearance:none;cursor:pointer}
+  .form-row select option{background:var(--forest);color:#fff}
+  .form-row textarea{resize:vertical;min-height:90px}
+
+  /* Submit button states */
+  .submit-btn{
+    margin-top:20px;
+    width:100%;padding:16px;
+    background:var(--gold);color:var(--dark);
+    border:none;border-radius:50px;
+    font-family:'DM Sans',sans-serif;
+    font-size:.9rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    cursor:pointer;
+    transition:all .35s;
+    position:relative;
+    overflow:hidden;
+  }
+  .submit-btn:hover:not(:disabled){background:var(--warm-white);transform:scale(1.02)}
+  .submit-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+    transform:none;
+    pointer-events:none;
+  }
+  .submit-btn .btn-text{transition:opacity .2s}
+  .submit-btn .btn-loader{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+    align-items:center;gap:8px;
+    font-weight:600;font-size:.9rem;letter-spacing:.06em;
+    color:var(--dark);
+  }
+  .submit-btn.loading .btn-text{opacity:0}
+  .submit-btn.loading .btn-loader{display:flex}
+
+  /* Spinner */
+  .spinner{
+    width:18px;height:18px;
+    border:2.5px solid rgba(26,26,26,0.25);
+    border-top-color:var(--dark);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Confirmation */
+  .confirmation{
+    display:none;
+    padding:36px 28px;
+    text-align:center;
+    animation:confirmIn .6s ease both;
+  }
+  .confirmation.show{display:block}
+  @keyframes confirmIn{
+    from{opacity:0;transform:scale(0.92) translateY(16px)}
+    to{opacity:1;transform:scale(1) translateY(0)}
+  }
+  .check-circle{
+    width:64px;height:64px;
+    background:var(--gold);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    animation:popIn .4s ease .2s both;
+  }
+  @keyframes popIn{
+    from{transform:scale(0)}
+    50%{transform:scale(1.15)}
+    to{transform:scale(1)}
+  }
+  .check-circle svg{width:30px;height:30px}
+  .confirmation h3{
+    font-family:'Playfair Display',serif;
+    font-size:1.3rem;margin-bottom:14px;
+    color:var(--warm-white);
+  }
+  .confirmation p{
+    font-size:.9rem;line-height:1.7;
+    color:rgba(255,255,255,0.75);
+    max-width:400px;margin:0 auto;
+  }
+  .confirmation .sub-note{
+    margin-top:18px;
+    font-size:.78rem;
+    color:rgba(255,255,255,0.4);
+    line-height:1.5;
+  }
+  .confirmation .new-booking-btn{
+    display:inline-block;
+    margin-top:24px;
+    padding:10px 28px;
+    border:1px solid rgba(255,255,255,0.25);
+    border-radius:40px;
+    color:var(--warm-white);
+    font-family:'DM Sans',sans-serif;
+    font-size:.82rem;font-weight:500;
+    cursor:pointer;
+    background:none;
+    transition:all .3s;
+  }
+  .confirmation .new-booking-btn:hover{
+    background:rgba(255,255,255,0.1);
+    border-color:var(--gold);
+    color:var(--gold);
+  }
+
+  /* Error */
+  .error-msg{
+    display:none;
+    margin-top:16px;
+    padding:14px 20px;
+    background:rgba(255,100,100,0.12);
+    border:1px solid rgba(255,100,100,0.25);
+    border-radius:10px;
+    font-size:.85rem;
+    color:#ffb4b4;
+    line-height:1.5;
+    text-align:left;
+  }
+  .error-msg.show{display:block;animation:fadeUp .4s ease both}
+  .error-msg strong{color:#ff9b9b;font-weight:600}
+
+  footer{
+    padding:40px 24px;
+    text-align:center;
+    background:var(--cream);
+    border-top:1px solid rgba(27,58,45,0.06);
+  }
+  .footer-logo{
+    font-family:'Playfair Display',serif;
+    font-size:1.2rem;font-weight:700;color:var(--forest);
+    margin-bottom:8px;
+  }
+  .footer-logo span{color:var(--gold)}
+  .footer-addr{font-size:.82rem;color:#888;line-height:1.6;margin-bottom:6px;font-weight:300}
+  .footer-copy{font-size:.75rem;color:#aaa}
+
+  @media(max-width:640px){
+    nav{padding:14px 20px}
+    .hero{padding:100px 20px 60px;min-height:100svh}
+    .hero h1{font-size:clamp(2rem,8vw,2.8rem)}
+    .hero p{font-size:.95rem}
+    .hero-btn{padding:14px 36px;font-size:.82rem}
+    .services{padding:60px 20px}
+    .services-grid{grid-template-columns:1fr;gap:16px}
+    .service-card{padding:28px 22px}
+    .booking{padding:60px 20px}
+    .booking h2{font-size:1.6rem}
+    .form-row{flex-direction:column}
+    footer{padding:32px 20px}
+  }
+
+  @media(max-width:380px){
+    nav{padding:12px 16px}
+    .logo{font-size:1.15rem}
+    .nav-cta{padding:8px 18px;font-size:.78rem}
+    .hero{padding:90px 16px 50px}
+    .hero-tag{font-size:.6rem;padding:5px 14px}
+    .hero-btn{padding:12px 28px}
+    .services,.booking{padding:48px 16px}
+    footer{padding:24px 16px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Nakia<span>cleaning</span></div>
+  <a class="nav-cta" onclick="scrollToBooking()">Book Now</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Washington, DC</div>
+    <h1>A Cleaner Home,<br>A <em>Lighter</em> Mind</h1>
+    <p>Professional cleaning you can trust — so you can spend your time on what truly matters.</p>
+    <a class="hero-btn" onclick="scrollToBooking()">Schedule a Cleaning</a>
+  </div>
+</section>
+
+<section class="services">
+  <div class="section-label">What We Offer</div>
+  <h2>Simple, Thorough, Reliable</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" fill="none" stroke="#FAF7F2" stroke-width="2" stroke-linecap="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+      </div>
+      <h3>Regular Cleaning</h3>
+      <p>Weekly or bi-weekly visits to keep your space fresh and comfortable.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" fill="none" stroke="#FAF7F2" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3>Deep Cleaning</h3>
+      <p>Top-to-bottom detail work for move-ins, move-outs, or a fresh start.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="24" height="24" fill="none" stroke="#FAF7F2" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+      </div>
+      <h3>Office Cleaning</h3>
+      <p>Keep your workplace spotless and professional for clients and staff.</p>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="book">
+  <div class="booking-inner">
+    <div class="section-label">Get Started</div>
+    <h2>Book Your Cleaning</h2>
+
+    <div id="formWrapper">
+      <form id="bookingForm" action="https://formspree.io/f/xkopgqgv" method="POST">
+        <!-- Formspree config fields -->
+        <input type="hidden" name="_subject" value="New Cleaning Booking Request">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <input type="text" name="First Name" placeholder="First Name" required>
+          <input type="text" name="Last Name" placeholder="Last Name" required>
+        </div>
+        <div class="form-row">
+          <input type="email" name="Email" placeholder="Email" required>
+          <input type="tel" name="Phone" placeholder="Phone">
+        </div>
+        <div class="form-row">
+          <select name="Service Type" required>
+            <option value="" disabled selected>Service Type</option>
+            <option value="Regular Cleaning">Regular Cleaning</option>
+            <option value="Deep Cleaning">Deep Cleaning</option>
+            <option value="Office Cleaning">Office Cleaning</option>
+          </select>
+          <input type="date" name="Preferred Date" required>
+        </div>
+        <div class="form-row full">
+          <textarea name="Message" placeholder="Anything we should know? (address, special instructions, etc.)"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="btn-text">Request Booking</span>
+          <span class="btn-loader"><span class="spinner"></span> Sending...</span>
+        </button>
+      </form>
+
+      <div class="error-msg" id="errorMsg">
+        <strong>Oops — something went wrong.</strong><br>
+        Your request could not be sent. Please check your internet connection and try again. If the issue persists, you can reach us directly at our address.
+      </div>
+    </div>
+
+    <div class="confirmation" id="confirmMsg">
+      <div class="check-circle">
+        <svg fill="none" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>Thank You for Your Inquiry</h3>
+      <p>Your booking request has been successfully received. A member of our team will carefully review your details and reach out to you within <strong style="color:#fff">48 hours</strong> to confirm your appointment.</p>
+      <div class="sub-note">Please check your inbox (and spam folder) for a confirmation. We look forward to serving you.</div>
+      <button class="new-booking-btn" onclick="resetForm()">Submit Another Request</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Nakia<span>cleaning</span> Service</div>
+  <div class="footer-addr">1449 Monroe St NW, Washington, DC 20010</div>
+  <div class="footer-copy">&copy; 2026 Nakiacleaning Service. All rights reserved.</div>
+</footer>
+
+<script>
+  // ========================================
+  // SCROLL TO BOOKING
+  // ========================================
+  function scrollToBooking() {
+    var bookingSection = document.getElementById('book');
+    var navHeight = document.querySelector('nav').offsetHeight;
+    var targetPosition = bookingSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
+  }
+
+  // ========================================
+  // FORM ELEMENTS
+  // ========================================
+  var form = document.getElementById('bookingForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var formWrapper = document.getElementById('formWrapper');
+  var confirmMsg = document.getElementById('confirmMsg');
+  var errorMsg = document.getElementById('errorMsg');
+  var isSubmitting = false;
+
+  // ========================================
+  // FORM SUBMISSION — AJAX TO FORMSPREE
+  // ========================================
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Prevent double-click
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    // 1) Show loading state
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    errorMsg.classList.remove('show');
+
+    // 2) Collect form data
+    var data = new FormData(form);
+
+    // 3) Send to Formspree via AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://formspree.io/f/xkopgqgv');
+    xhr.setRequestHeader('Accept', 'application/json');
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // SUCCESS — hide form, show confirmation
+        formWrapper.style.display = 'none';
+        confirmMsg.classList.add('show');
+      } else {
+        // FAILURE — show error, re-enable button
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        errorMsg.classList.add('show');
+        isSubmitting = false;
+      }
+    };
+
+    xhr.onerror = function() {
+      // NETWORK ERROR
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+      errorMsg.classList.add('show');
+      isSubmitting = false;
+    };
+
+    xhr.send(data);
+  });
+
+  // ========================================
+  // RESET FORM — for "Submit Another Request"
+  // ========================================
+  function resetForm() {
+    form.reset();
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('loading');
+    formWrapper.style.display = 'block';
+    confirmMsg.classList.remove('show');
+    errorMsg.classList.remove('show');
+    isSubmitting = false;
+    scrollToBooking();
+  }
+
+  // ========================================
+  // SCROLL REVEAL — service cards
+  // ========================================
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.service-card').forEach(function(el, i) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all .6s ease ' + (i * 0.12) + 's';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
